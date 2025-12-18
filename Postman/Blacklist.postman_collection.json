@@ -1,0 +1,401 @@
+{
+	"info": {
+		"_postman_id": "460696ab-b824-4739-9149-b86242c32539",
+		"name": "Blacklist",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34514175",
+		"_collection_link": "https://www.postman.com/requisicao-6449/workspace/blacklist/collection/34514175-460696ab-b824-4739-9149-b86242c32539?action=share&source=collection_link&creator=34514175"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "api/validatetoken/",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const token = pm.collectionVariables.get(\"token\") || pm.environment.get(\"token\");\r",
+									"if (token) pm.request.headers.upsert({ key: \"Authorization\", value: `Bearer ${token}` });\r",
+									"const baseurl = (pm.environment.get(\"baseurl\") || pm.collectionVariables.get(\"baseurl\") || \"https://api-blacklist.qacoders.dev.br/api/\").replace(/\\/+$/, \"/\");\r",
+									"pm.request.url.update(baseurl + \"validateToken\");\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (!pm.response || typeof pm.response.code === \"undefined\") {\r",
+									"  pm.test(\"Sem resposta\", function () { throw new Error(\"Sem resposta do servidor.\"); });\r",
+									"  return;\r",
+									"}\r",
+									"pm.test(\"Status 200 (token válido)\", function () { pm.expect(pm.response.code).to.equal(200); });\r",
+									"const ct = pm.response.headers.get(\"Content-Type\") || \"\";\r",
+									"if (/application\\/json/i.test(ct)) pm.test(\"Resposta é JSON\", () => pm.response.to.be.json);\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}validateToken",
+							"host": [
+								"{{baseurl}}validateToken"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/login/",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"// Guard for No response\r",
+									"if (!pm.response || typeof pm.response.code === \"undefined\") {\r",
+									"  pm.test(\"Sem resposta do servidor (No response)\", function () {\r",
+									"    throw new Error(\"Sem resposta. Verifique URL/SSL/Proxy.\");\r",
+									"  });\r",
+									"  return;\r",
+									"}\r",
+									"const status = pm.response.code;\r",
+									"const is2xx = status >= 200 && status < 300;\r",
+									"\r",
+									"if (!is2xx) {\r",
+									"  pm.test(`Login falhou (HTTP ${status})`, function () {\r",
+									"    const raw = pm.response.text();\r",
+									"    console.warn(\"⛔ Erro Login (raw):\", raw);\r",
+									"    pm.expect(status).to.be.within(400,599);\r",
+									"  });\r",
+									"  pm.collectionVariables.unset(\"token\");\r",
+									"  return;\r",
+									"}\r",
+									"\r",
+									"pm.test(\"HTTP 2xx\", () => pm.expect(status).to.be.within(200,299));\r",
+									"const ct = pm.response.headers.get(\"Content-Type\") || \"\";\r",
+									"if (/application\\/json/i.test(ct)) pm.test(\"Resposta é JSON\", () => pm.response.to.be.json);\r",
+									"\r",
+									"let body = {};\r",
+									"try { body = pm.response.json(); } catch(e) {}\r",
+									"\r",
+									"function deepFindToken(obj) {\r",
+									"  if (!obj || typeof obj !== \"object\") return undefined;\r",
+									"  const direct = [obj.token, obj.access_token, obj.accessToken, obj.jwt, obj.id_token, obj.sessionToken].filter(Boolean);\r",
+									"  if (direct.length) return direct[0];\r",
+									"  for (const v of Object.values(obj)) {\r",
+									"    if (v && typeof v === \"object\") {\r",
+									"      const t = deepFindToken(v);\r",
+									"      if (t) return t;\r",
+									"    }\r",
+									"  }\r",
+									"  return undefined;\r",
+									"}\r",
+									"let token = deepFindToken(body);\r",
+									"// Fallbacks\r",
+									"const jwtRe = /^[A-Za-z0-9-_]+\\.[A-Za-z0-9-_]+\\.[A-Za-z0-9-_]+$/;\r",
+									"if (!token) {\r",
+									"  const strings = [];\r",
+									"  (function collect(o){\r",
+									"    if (o == null) return;\r",
+									"    if (typeof o === \"string\") strings.push(o);\r",
+									"    else if (Array.isArray(o)) o.forEach(collect);\r",
+									"    else if (typeof o === \"object\") Object.values(o).forEach(collect);\r",
+									"  })(body);\r",
+									"  token = strings.find(s => jwtRe.test(s));\r",
+									"}\r",
+									"if (!token) {\r",
+									"  const auth = pm.response.headers.get(\"Authorization\");\r",
+									"  if (auth && auth.toLowerCase().startsWith(\"bearer \")) token = auth.slice(7).trim();\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Token presente\", function () {\r",
+									"  pm.expect(token, \"nenhum campo de token encontrado\").to.be.a(\"string\").and.not.empty;\r",
+									"});\r",
+									"if (token) {\r",
+									"  pm.collectionVariables.set(\"token\", token);\r",
+									"  console.log(\"✅ Token salvo na coleção.\");\r",
+									"}\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"// Build URL from {{baseurl}} + 'login'\r",
+									"const baseurl = (pm.environment.get(\"baseurl\") || pm.collectionVariables.get(\"baseurl\") || \"https://api-blacklist.qacoders.dev.br/api/\").replace(/\\/+$/, \"/\");\r",
+									"pm.request.url.update(baseurl + \"login\");\r",
+									"pm.request.headers.upsert({ key: \"Content-Type\", value: \"application/json\" });\r",
+									"\r",
+									"// Use 'mail' and 'password' from env/globals\r",
+									"const mail = pm.variables.get(\"mail\") || pm.environment.get(\"mail\") || pm.collectionVariables.get(\"mail\") || \"\";\r",
+									"const password = pm.variables.get(\"password\") || pm.environment.get(\"password\") || pm.collectionVariables.get(\"password\") || \"\";\r",
+									"pm.request.body.update(JSON.stringify({ mail, password }));\r",
+									"\r",
+									"console.log(\"➡️ LOGIN URL:\", pm.request.url.toString());\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"mail\": \"{{mail}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}login",
+							"host": [
+								"{{baseurl}}login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Company",
+			"item": [
+				{
+					"name": "api/company/",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}company",
+							"host": [
+								"{{baseurl}}company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/company/status/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"const updateCompany = jsonData.updateCompany;\r",
+									"const expectedStatus = (pm.environment.get(\"Status\") === \"true\");\r",
+									"\r",
+									"pm.test(\"Status alterado com sucesso\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verifica propriedade e tipo de status\", function () {\r",
+									"    pm.expect(updateCompany.status).to.be.a('boolean');\r",
+									"    pm.expect(updateCompany.status).to.eql(expectedStatus);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": {{Status}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}company/status/{{userIdcompany}}",
+							"host": [
+								"{{baseurl}}company"
+							],
+							"path": [
+								"status",
+								"{{userIdcompany}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "Authorization",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "{{tokenadmin}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					"// Injeta Bearer se existir\r",
+					"const t = pm.collectionVariables.get(\"token\") || pm.environment.get(\"token\");\r",
+					"if (t) pm.request.headers.upsert({ key: \"Authorization\", value: `Bearer ${t}` });\r",
+					"\r",
+					"// Normaliza baseUrl\r",
+					"let baseUrl = pm.collectionVariables.get(\"baseUrl\") || pm.environment.get(\"baseUrl\");\r",
+					"if (!baseUrl) {\r",
+					"  baseUrl = \"https://api-blacklist.qacoders.dev.br/api\";\r",
+					"  pm.collectionVariables.set(\"baseUrl\", baseUrl);\r",
+					"}\r",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					"\r",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "companyId",
+			"value": ""
+		}
+	]
+}

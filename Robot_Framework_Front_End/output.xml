@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3.2 (Python 3.14.0 on win32)" generated="2025-12-15T19:51:18.936806" rpa="false" schemaversion="5">
+<suite id="s1" name="Cost-Center" source="F:\blacklist_academy\blacklist_academy\Robot_Framework_Front_End\tests\cost-center\cost-center.robot">
+<kw name="Abrir Navegador" owner="common" type="SETUP">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2025-12-15T19:51:20.525134" level="INFO">Opening browser 'Chrome' to base url 'https://blacklist.qacoders.dev.br'.</msg>
+<arg>${BASE_URL_UI}</arg>
+<arg>Chrome</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2025-12-15T19:51:20.524794" elapsed="5.749125"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2025-12-15T19:51:26.274224" elapsed="0.042435"/>
+</kw>
+<status status="PASS" start="2025-12-15T19:51:20.523738" elapsed="5.793186"/>
+</kw>
+<test id="s1-t1" name="Cenario 01: Editar Centro de Custo" line="10">
+<kw name="Realizar Login" owner="login">
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2025-12-15T19:51:26.319850" level="INFO">Opening url 'https://blacklist.qacoders.dev.br/login'</msg>
+<arg>${BASE_URL_UI}/login</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2025-12-15T19:51:26.319311" elapsed="3.815718"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:email</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-12-15T19:51:30.135353" elapsed="0.032528"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-12-15T19:51:30.168466" level="INFO">Typing text 'sysadmin@qacoders.com' into text field 'id:email'.</msg>
+<arg>id:email</arg>
+<arg>${FRONTEND_EMAIL}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-12-15T19:51:30.168186" elapsed="0.181618"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:password</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-12-15T19:51:30.349996" elapsed="0.015140"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-12-15T19:51:30.365837" level="INFO">Typing text '1234@Test' into text field 'id:password'.</msg>
+<arg>id:password</arg>
+<arg>${FRONTEND_PASSWORD}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-12-15T19:51:30.365464" elapsed="0.083532"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:login</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-12-15T19:51:30.449204" elapsed="0.013600"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-12-15T19:51:30.463199" level="INFO">Clicking button 'id:login'.</msg>
+<arg>id:login</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-12-15T19:51:30.463009" elapsed="0.092023"/>
+</kw>
+<status status="PASS" start="2025-12-15T19:51:26.318522" elapsed="4.236766"/>
+</kw>
+<kw name="Verificar Redirecionamento Para Home" owner="login">
+<kw name="Wait Until Location Is" owner="SeleniumLibrary">
+<arg>${BASE_URL_UI}/home</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the current URL is ``expected``.</doc>
+<status status="PASS" start="2025-12-15T19:51:30.556416" elapsed="1.717856"/>
+</kw>
+<kw name="Location Should Be" owner="SeleniumLibrary">
+<msg time="2025-12-15T19:51:32.283803" level="INFO">Current location is 'https://blacklist.qacoders.dev.br/home'.</msg>
+<arg>${BASE_URL_UI}/home</arg>
+<doc>Verifies that the current URL is exactly ``url``.</doc>
+<status status="PASS" start="2025-12-15T19:51:32.274625" elapsed="0.009359"/>
+</kw>
+<status status="PASS" start="2025-12-15T19:51:30.555852" elapsed="1.728332"/>
+</kw>
+<kw name="Verificar Elemento Cadastros Visivel" owner="login">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:Cadastros</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-12-15T19:51:32.285395" elapsed="0.028333"/>
+</kw>
+<kw name="Element Text Should Be" owner="SeleniumLibrary">
+<msg time="2025-12-15T19:51:32.314656" level="INFO">Verifying element 'id:Cadastros' contains exact text 'Cadastros'.</msg>
+<arg>id:Cadastros</arg>
+<arg>Cadastros</arg>
+<doc>Verifies that element ``locator`` contains exact the text ``expected``.</doc>
+<status status="PASS" start="2025-12-15T19:51:32.314149" elapsed="0.057542"/>
+</kw>
+<status status="PASS" start="2025-12-15T19:51:32.284876" elapsed="0.086937"/>
+</kw>
+<kw name="Acessar Pagina Centro de Custo" owner="cost-center">
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-12-15T19:51:32.372998" level="INFO">Clicking element 'id:Cadastros'.</msg>
+<arg>id:Cadastros</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-12-15T19:51:32.372791" elapsed="0.160287"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:Centro de Custo</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-12-15T19:51:32.533529" elapsed="0.297955"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-12-15T19:51:32.832091" level="INFO">Clicking element 'id:Centro de Custo'.</msg>
+<arg>id:Centro de Custo</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-12-15T19:51:32.831780" elapsed="0.095580"/>
+</kw>
+<kw name="Wait Until Location Is" owner="SeleniumLibrary">
+<arg>${BASE_URL_UI}/costCenter</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the current URL is ``expected``.</doc>
+<status status="PASS" start="2025-12-15T19:51:32.927708" elapsed="0.831323"/>
+</kw>
+<kw name="Location Should Be" owner="SeleniumLibrary">
+<msg time="2025-12-15T19:51:33.861525" level="INFO">Current location is 'https://blacklist.qacoders.dev.br/costCenter'.</msg>
+<arg>${BASE_URL_UI}/costCenter</arg>
+<doc>Verifies that the current URL is exactly ``url``.</doc>
+<status status="PASS" start="2025-12-15T19:51:33.824044" elapsed="0.037577"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath://h1[text()='Centro de Custo']</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-12-15T19:51:33.861808" elapsed="0.104862"/>
+</kw>
+<kw name="Element Should Be Visible" owner="SeleniumLibrary">
+<msg time="2025-12-15T19:51:34.077847" level="INFO">Element 'xpath://h1[text()='Centro de Custo']' is displayed.</msg>
+<arg>xpath://h1[text()='Centro de Custo']</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<status status="PASS" start="2025-12-15T19:51:33.967057" elapsed="0.110930"/>
+</kw>
+<status status="PASS" start="2025-12-15T19:51:32.372285" elapsed="1.705860"/>
+</kw>
+<kw name="Editar Primeiro Centro de Custo" owner="cost-center">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath://ul</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-12-15T19:51:34.079423" elapsed="0.024025"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath://ul/li[1]//button[@id='edit']</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-12-15T19:51:34.103722" elapsed="0.092195"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-12-15T19:51:34.196618" level="INFO">Clicking button 'xpath://ul/li[1]//button[@id='edit']'.</msg>
+<arg>xpath://ul/li[1]//button[@id='edit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-12-15T19:51:34.196275" elapsed="0.222396"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath://h2[text()='Editar Centro de Custo']</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-12-15T19:51:34.418931" elapsed="2.374477"/>
+</kw>
+<kw name="Element Should Be Visible" owner="SeleniumLibrary">
+<msg time="2025-12-15T19:51:36.810888" level="INFO">Element 'xpath://h2[text()='Editar Centro de Custo']' is displayed.</msg>
+<arg>xpath://h2[text()='Editar Centro de Custo']</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<status status="PASS" start="2025-12-15T19:51:36.793782" elapsed="0.017205"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-12-15T19:51:41.811712" level="INFO">Slept 5 seconds.</msg>
+<arg>5s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-12-15T19:51:36.811143" elapsed="5.000735"/>
+</kw>
+<kw name="Gerar Nome Centro de Custo" owner="generate_random_data">
+<kw name="Word" owner="FakerLibrary">
+<msg time="2025-12-15T19:51:41.812906" level="INFO">${word1} = cumque</msg>
+<var>${word1}</var>
+<doc>Generate a word.</doc>
+<status status="PASS" start="2025-12-15T19:51:41.812529" elapsed="0.000418"/>
+</kw>
+<kw name="Word" owner="FakerLibrary">
+<msg time="2025-12-15T19:51:41.813381" level="INFO">${word2} = nesciunt</msg>
+<var>${word2}</var>
+<doc>Generate a word.</doc>
+<status status="PASS" start="2025-12-15T19:51:41.813133" elapsed="0.000283"/>
+</kw>
+<kw name="Catenate" owner="BuiltIn">
+<msg time="2025-12-15T19:51:41.813744" level="INFO">${costCenterName} = cumque nesciunt</msg>
+<var>${costCenterName}</var>
+<arg>${word1}</arg>
+<arg>${word2}</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<status status="PASS" start="2025-12-15T19:51:41.813549" elapsed="0.000226"/>
+</kw>
+<return>
+<value>${costCenterName}</value>
+<status status="PASS" start="2025-12-15T19:51:41.813847" elapsed="0.000079"/>
+</return>
+<msg time="2025-12-15T19:51:41.814080" level="INFO">${costCenterName} = cumque nesciunt</msg>
+<var>${costCenterName}</var>
+<status status="PASS" start="2025-12-15T19:51:41.812213" elapsed="0.001898"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-12-15T19:51:41.814411" level="INFO">Typing text 'cumque nesciunt' into text field 'id:costCentername'.</msg>
+<arg>id:costCentername</arg>
+<arg>${costCenterName}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-12-15T19:51:41.814240" elapsed="0.113415"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:Diretoria</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-12-15T19:51:41.928007" elapsed="0.015837"/>
+</kw>
+<kw name="Get List Items" owner="SeleniumLibrary">
+<msg time="2025-12-15T19:51:42.000570" level="INFO">${itens} = ['Diretoria', 'Operações HID']</msg>
+<var>${itens}</var>
+<arg>id:Diretoria</arg>
+<doc>Returns all labels or values of selection list ``locator``.</doc>
+<status status="PASS" start="2025-12-15T19:51:41.944026" elapsed="0.056638"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2025-12-15T19:51:42.001011" level="INFO">${itens_filtrados} = []</msg>
+<var>${itens_filtrados}</var>
+<doc>Returns a list containing given items.</doc>
+<status status="PASS" start="2025-12-15T19:51:42.000855" elapsed="0.000179"/>
+</kw>
+<for flavor="IN">
+<iter>
+<kw name="Run Keyword If" owner="BuiltIn">
+<arg>'${item}' != '' and '${item}' != 'Diretoria'</arg>
+<arg>Append To List</arg>
+<arg>${itens_filtrados}</arg>
+<arg>${item}</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" start="2025-12-15T19:51:42.001370" elapsed="0.000196"/>
+</kw>
+<var name="${item}">Diretoria</var>
+<status status="PASS" start="2025-12-15T19:51:42.001267" elapsed="0.000373"/>
+</iter>
+<iter>
+<kw name="Run Keyword If" owner="BuiltIn">
+<kw name="Append To List" owner="Collections">
+<arg>${itens_filtrados}</arg>
+<arg>${item}</arg>
+<doc>Adds ``values`` to the end of ``list``.</doc>
+<status status="PASS" start="2025-12-15T19:51:42.002166" elapsed="0.000181"/>
+</kw>
+<arg>'${item}' != '' and '${item}' != 'Diretoria'</arg>
+<arg>Append To List</arg>
+<arg>${itens_filtrados}</arg>
+<arg>${item}</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" start="2025-12-15T19:51:42.001890" elapsed="0.000529"/>
+</kw>
+<var name="${item}">Operações HID</var>
+<status status="PASS" start="2025-12-15T19:51:42.001761" elapsed="0.000713"/>
+</iter>
+<var>${item}</var>
+<value>@{itens}</value>
+<status status="PASS" start="2025-12-15T19:51:42.001101" elapsed="0.001430"/>
+</for>
+<kw name="Get From List" owner="Collections">
+<msg time="2025-12-15T19:51:42.002761" level="INFO">${primeiro} = Operações HID</msg>
+<var>${primeiro}</var>
+<arg>${itens_filtrados}</arg>
+<arg>0</arg>
+<doc>Returns the value specified with an ``index`` from ``list``.</doc>
+<status status="PASS" start="2025-12-15T19:51:42.002642" elapsed="0.000142"/>
+</kw>
+<kw name="Select From List By Label" owner="SeleniumLibrary">
+<msg time="2025-12-15T19:51:42.003065" level="INFO">Selecting options from selection list 'id:Diretoria' by label Operações HID.</msg>
+<arg>id:Diretoria</arg>
+<arg>${primeiro}</arg>
+<doc>Selects options from selection list ``locator`` by ``labels``.</doc>
+<status status="PASS" start="2025-12-15T19:51:42.002885" elapsed="0.070360"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath://button[text()='Salvar']</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-12-15T19:51:42.073436" elapsed="0.017282"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-12-15T19:51:42.091075" level="INFO">Clicking button 'xpath://button[text()='Salvar']'.</msg>
+<arg>xpath://button[text()='Salvar']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-12-15T19:51:42.090900" elapsed="0.072729"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-12-15T19:51:52.164564" level="INFO">Slept 10 seconds.</msg>
+<arg>10s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-12-15T19:51:42.163923" elapsed="10.000809"/>
+</kw>
+<kw name="Validar Primeiro Item Da Lista" owner="cost-center">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath://ul/li[1]/p</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-12-15T19:51:52.166605" elapsed="0.019158"/>
+</kw>
+<kw name="Get Text" owner="SeleniumLibrary">
+<msg time="2025-12-15T19:51:52.199840" level="INFO">${nome_atual} = quidem neque</msg>
+<var>${nome_atual}</var>
+<arg>xpath://ul/li[1]/p</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-12-15T19:51:52.186042" elapsed="0.013855"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<msg time="2025-12-15T19:51:52.200399" level="FAIL">quidem neque != cumque nesciunt</msg>
+<arg>${nome_atual}</arg>
+<arg>${nome_esperado}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="FAIL" start="2025-12-15T19:51:52.200118" elapsed="0.000429">quidem neque != cumque nesciunt</status>
+</kw>
+<arg>${costCenterName}</arg>
+<status status="FAIL" start="2025-12-15T19:51:52.166007" elapsed="0.034693">quidem neque != cumque nesciunt</status>
+</kw>
+<status status="FAIL" start="2025-12-15T19:51:34.078885" elapsed="18.121913">quidem neque != cumque nesciunt</status>
+</kw>
+<status status="FAIL" start="2025-12-15T19:51:26.317090" elapsed="25.884148">quidem neque != cumque nesciunt</status>
+</test>
+<kw name="Fechar Navegador" owner="common" type="TEARDOWN">
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2025-12-15T19:51:52.202260" elapsed="2.404263"/>
+</kw>
+<status status="PASS" start="2025-12-15T19:51:52.202073" elapsed="2.404603"/>
+</kw>
+<status status="FAIL" start="2025-12-15T19:51:18.938855" elapsed="35.667875"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Cost-Center" id="s1" pass="0" fail="1" skip="0">Cost-Center</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

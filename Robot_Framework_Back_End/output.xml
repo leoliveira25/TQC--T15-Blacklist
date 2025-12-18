@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3.2 (Python 3.14.0 on win32)" generated="2025-12-18T00:00:29.809027" rpa="false" schemaversion="5">
+<suite id="s1" name="Login" source="F:\blacklist_academy\blacklist_academy\Robot_Framework_Back_End\Teste\login.robot">
+<test id="s1-t1" name="Validar login" line="5">
+<kw name="Realizar login" owner="login">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-12-18T00:00:30.017675" level="INFO">${body} = {'mail': 'sysadmin@qacoders.com', 'password': '1234@Test'}</msg>
+<var>${body}</var>
+<arg>mail=${username}</arg>
+<arg>password=${password}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-12-18T00:00:30.017083" elapsed="0.000636"/>
+</kw>
+<kw name="Criar Sessao" owner="login">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-12-18T00:00:30.018230" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<var>${headers}</var>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-12-18T00:00:30.018079" elapsed="0.000174"/>
+</kw>
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2025-12-18T00:00:30.018524" level="INFO">Creating Session using : alias=develop, url=https://api-blacklist.qacoders.dev.br/api, headers={'Content-Type': 'application/json'},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>alias=develop</arg>
+<arg>url=${BASE_URL}</arg>
+<arg>headers=${headers}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2025-12-18T00:00:30.018332" elapsed="0.000348"/>
+</kw>
+<status status="PASS" start="2025-12-18T00:00:30.017883" elapsed="0.000850"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2025-12-18T00:00:31.116866" level="INFO">POST Request : url=https://api-blacklist.qacoders.dev.br/api/login 
+ path_url=/api/login 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '58'} 
+ body=b'{"mail": "sysadmin@qacoders.com", "password": "1234@Test"}' 
+ </msg>
+<msg time="2025-12-18T00:00:31.117007" level="INFO">POST Response : url=https://api-blacklist.qacoders.dev.br/api/login 
+ status=200, reason=OK 
+ headers={'Access-Control-Allow-Origin': '*', 'Content-Length': '906', 'Content-Type': 'application/json; charset=utf-8', 'Date': 'Thu, 18 Dec 2025 03:00:33 GMT', 'Etag': 'W/"38a-WVBAFm5PZSG1WXCctKo4zjMgbs0"', 'X-Powered-By': 'Express'} 
+ body={"msg":"Olá Qa-Coders-SYSADMIN, autenticação autorizada com sucesso!","user":{"_id":"69364d35cb114e0542feb90d","fullName":"Qa-Coders-SYSADMIN","mail":"sysadmin@qacoders.com","password":"$2b$10$v/EgoVbWu0/TSnN/HA84t.UiiF8LyzuZtIshMpy/MsCADYYrHhxMm","accessProfile":"SYSADMIN","cpf":"11111111111","status":true,"audit":[{"registeredBy":{"userId":"111111111111111111","userLogin":"sysadmin@qacoders.com"},"registrationDate":"segunda-feira, 08/12/2025, 00:59:49 BRT","registrationNumber":"01","companyId":"Qa.Coders","_id":"69364d35cb114e0542feb90e"}],"__v":0},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTM2NGQzNWNiMTE0ZTA1NDJmZWI5MGQiLCJ1c2VySWQiOiI2OTM2NGQzNWNiMTE0ZTA1NDJmZWI5MGQiLCJuYW1lIjoiUWEtQ29kZXJzLVNZU0FETUlOIiwibWFpbCI6InN5c2FkbWluQHFhY29kZXJzLmNvbSIsImFjY2Vzc1Byb2ZpbGUiOiJTWVNBRE1JTiIsImlhdCI6MTc2NjAyNjgzMywiZXhwIjoxNzY2MTEzMjMzfQ.88sLvN8BZWNOREQ9ZIkBdCe1IXmTJQEePWnKTO9PT7c"} 
+ </msg>
+<msg time="2025-12-18T00:00:31.117181" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>develop</arg>
+<arg>/login</arg>
+<arg>json=${body}</arg>
+<arg>verify=${True}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-12-18T00:00:30.018800" elapsed="1.098412"/>
+</kw>
+<kw name="Status Should Be" owner="RequestsLibrary">
+<arg>200</arg>
+<arg>${response}</arg>
+<doc>Fails if response status code is different than the expected.</doc>
+<status status="PASS" start="2025-12-18T00:00:31.117369" elapsed="0.000218"/>
+</kw>
+<status status="PASS" start="2025-12-18T00:00:30.015813" elapsed="1.101838"/>
+</kw>
+<status status="PASS" start="2025-12-18T00:00:30.015147" elapsed="1.102810"/>
+</test>
+<status status="PASS" start="2025-12-18T00:00:29.810989" elapsed="1.307728"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Login" id="s1" pass="1" fail="0" skip="0">Login</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

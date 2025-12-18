@@ -1,0 +1,63 @@
+name: Robot Framework Tests Front End
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  robot-framework-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install robotframework
+          pip install robotframework-seleniumlibrary
+          pip install robotframework-requests
+          pip install robotframework-faker
+          pip install webdriver-manager
+
+      - name: Setup Chrome and ChromeDriver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget unzip
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo dpkg -i google-chrome-stable_current_amd64.deb || sudo apt-get -f install -y
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
+          CHROMEDRIVER_VERSION=$(wget -qO- "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
+          wget "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/local/bin/
+          sudo chmod +x /usr/local/bin/chromedriver
+
+      - name: Run Robot Framework Tests
+        env:
+          CI: true
+        run: |
+          cd Robot_Framework_Front_End
+          robot --outputdir results tests/login/
+        continue-on-error: false
+
+      - name: Check Test Results
+        run: |
+          cd Robot_Framework_Front_End/results
+          if grep -q "FAIL" output.xml; then
+            echo "Some tests have failed."
+            exit 1
+          else
+            echo "All tests passed successfully."
+          fi
+
+
+    
